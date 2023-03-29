@@ -1,6 +1,7 @@
 import pandas as pd
 import requests
 import MySQLdb as mdb
+from datetime import timedelta
 
 # Устанавливаем соединение с базой данных
 my_host = 'localhost'
@@ -15,7 +16,7 @@ con = mdb.connect(host=my_host, user=my_user, password=my_password, database=my_
 # Определим последнюю дату и время обновления данных
 query = "SELECT MAX(lastChangeDate) as last_date FROM sales"
 df_sql = pd.read_sql(query, con)
-last_date = df_sql['last_date'][0]
+last_date = df_sql['last_date'][0] + timedelta(seconds=1)
 
 # Если SQL таблицы нет, то выполняем это, вместо предыдущих строк
 # last_date = '2018-01-01'
